@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>OSINT Event Map</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet.fullscreen/Control.FullScreen.css" />
+  <script src="https://unpkg.com/leaflet.fullscreen/Control.FullScreen.js"></script>
+  <style>
+    html, body { margin: 0; padding: 0; height: 100%; }
+    #map { width: 100%; height: 100vh; }
+    .leaflet-popup-content-wrapper {
+      background-color: #f8f9fa;
+      border-left: 5px solid #007bff;
+      font-family: 'Segoe UI', sans-serif;
+    }
+    .leaflet-popup-content {
+      font-size: 14px;
+      color: #333;
+    }
+    .leaflet-popup-tip {
+      background: #007bff;
+    }
+  </style>
+</head>
+<body>
+<div id="map"></div>
+<script>
+  const map = L.map('map', { fullscreenControl: true }).setView([10, 10], 2);
+
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; OpenStreetMap contributors'
+  }).addTo(map);
+
+  const locations = [
+    { coords: [38.9, -77], iconColor: 'deeppink', label: 'North America', text: 'U.S. Offers Reward for Iranian Intel Officers in Connection with Robert Levinson’s Abduction.' },
+    { coords: [4.6, -74.1], iconColor: 'violet', label: 'South America', text: 'Foreign criminal organizations use Colombia as the epicenter of global drug trafficking.' },
+    { coords: [48.85, 2.35], iconColor: 'dodgerblue', label: 'Global', text: 'Trafficking in medicines diverted from their use.' },
+    { coords: [52.2, 21], iconColor: 'dodgerblue', label: 'Europe', text: 'Russian and Belarusian threat to Poland.' },
+    { coords: [7.54, -5.55], iconColor: 'tomato', label: 'West Africa', text: 'Russian interference in the Ivorian electoral process.' },
+    { coords: [12.6, -7.99], iconColor: 'tomato', label: 'West Africa', text: 'Trafficking and influence operations in West Africa.' },
+    { coords: [4.0, 21.76], iconColor: 'crimson', label: 'Central Africa', text: 'Russian military services and GRU officials sanctioned by the EU.' },
+    { coords: [-30.6, 22.9], iconColor: 'orangered', label: 'South Africa / Asia', text: 'Abalone trafficking linked to Asia.' },
+    { coords: [15.5, 32.5], iconColor: 'darkorange', label: 'East Africa', text: 'Sudanese civil war.' },
+    { coords: [13.75, 100.5], iconColor: 'limegreen', label: 'Southeast Asia', text: 'YouTuber arrested in fraud case.' },
+    { coords: [35.8, 104.1], iconColor: 'lightgreen', label: 'Asia', text: 'Logistics Group activity in China.' }
+  ];
+
+  locations.forEach(loc => {
+    const icon = L.divIcon({
+      html: `<div style='background-color:${loc.iconColor};width:16px;height:16px;border-radius:50%;border:2px solid white;'></div>`,
+      className: '',
+      iconSize: [16, 16]
+    });
+    L.marker(loc.coords, { icon: icon })
+      .addTo(map)
+      .bindPopup(`<strong>${loc.label}</strong><br>${loc.text}`);
+  });
+</script>
+</body>
+</html>
